@@ -10,11 +10,7 @@ export function placeShipsRandom(gameboard, ships) {
   const boardSize = 10;
   const positions = generatePositions(boardSize, ships);
 
-  for (let i = 0; i < Object.keys(positions).length; i++) {
-    const position = Object.values(positions);
-
-    gameboard.placeShip(ships[i], position[i]);
-  }
+  for (let i = 0; i < positions.length; i++) gameboard.placeShip(ships[i], positions[i]);
 }
 
 export function getPossiblePositions(boardSize) {
@@ -47,33 +43,33 @@ function getRandomStartingPosition(availablePositions, shipSize, boardSize) {
   return [y, x];
 }
 
-function removeAdjacentCells(availablePositions, position) {
-  const adjacentCells = getAdjacentCells(availablePositions, position);
+function removeAdjacentSlots(availablePositions, position) {
+  const adjacentSlots = getAdjacentSlots(availablePositions, position);
 
-  for (const [y, x] of adjacentCells) availablePositions.delete(`${y}, ${x}`);
+  for (const [y, x] of adjacentSlots) availablePositions.delete(`${y}, ${x}`);
 }
 
-function getAdjacentCells(availablePositions, position) {
+function getAdjacentSlots(availablePositions, position) {
   const directions = [
     [-1, 0],
     [1, 0],
     [0, -1],
     [0, 1],
   ];
-  const adjacentCells = [];
+  const adjacentSlots = [];
 
   for (const direction of directions) {
     const [y, x] = [direction[0] + position[0], direction[1] + position[1]];
 
-    if (availablePositions.has(`${y}, ${x}`)) adjacentCells.push([y, x]);
+    if (availablePositions.has(`${y}, ${x}`)) adjacentSlots.push([y, x]);
   }
 
-  return adjacentCells;
+  return adjacentSlots;
 }
 
 function generatePositions(boardSize, ships) {
   const availablePositions = getPossiblePositions(boardSize);
-  const positions = {}; // positions for all ships
+  const positions = []; // positions for all ships
 
   for (const ship of ships) {
     const shipPositions = [];
@@ -89,9 +85,9 @@ function generatePositions(boardSize, ships) {
       }
     }
 
-    for (const [y, x] of shipPositions) removeAdjacentCells(availablePositions, [y, x]);
+    for (const [y, x] of shipPositions) removeAdjacentSlots(availablePositions, [y, x]);
 
-    positions[ship.class] = shipPositions;
+    positions.push(shipPositions);
   }
 
   return positions;
