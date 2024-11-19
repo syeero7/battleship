@@ -2,7 +2,6 @@ export default class GameController {
   #players;
   #activePlayer;
   #isGameOver;
-  #isOpponentHit;
   #winner;
 
   constructor() {
@@ -10,7 +9,6 @@ export default class GameController {
     this.#activePlayer = null;
     this.#isGameOver = false;
     this.#winner = null;
-    this.#isOpponentHit = null;
   }
 
   setPlayer(player) {
@@ -24,10 +22,6 @@ export default class GameController {
     this.#activePlayer = player;
   }
 
-  isActivePlayerHit() {
-    return this.#activePlayer.gameboard.isHit;
-  }
-
   #switchPlayerTurn() {
     this.#activePlayer =
       this.#activePlayer === this.#players[0] ? this.#players[1] : this.#players[0];
@@ -37,7 +31,6 @@ export default class GameController {
     const opponent = this.#activePlayer === this.#players[0] ? this.#players[1] : this.#players[0];
 
     opponent.gameboard.receiveAttack(position);
-    this.#isOpponentHit = opponent.gameboard.isHit;
 
     this.#setWinner(opponent.name);
     this.#setIsGameOver(this.#activePlayer.gameboard.isAllShipsSunk());
@@ -59,10 +52,6 @@ export default class GameController {
   get winner() {
     if (this.#isGameOver) return this.#winner;
     return null;
-  }
-
-  get isOpponentHit() {
-    return this.#isOpponentHit;
   }
 
   get isGameOver() {
