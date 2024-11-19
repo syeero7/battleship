@@ -1,10 +1,10 @@
 import Gameboard from "../src/js/Gameboard";
 
-describe("place a ship", () => {
+describe("placeShip()", () => {
   const gameboard = new Gameboard();
   const ship = { class: "battleship" };
 
-  test("can place a ship", () => {
+  test("given position matches the class of ship if the ship has been placed", () => {
     const positions = [
       [0, 1],
       [0, 2],
@@ -16,7 +16,7 @@ describe("place a ship", () => {
     for (const [y, x] of positions) expect(gameboard.board[y][x]).toEqual(ship.class);
   });
 
-  test("can't place a ship", () => {
+  test("returns undefined if the given position is not empty", () => {
     const positions = [
       [0, 0],
       [0, 1],
@@ -27,9 +27,9 @@ describe("place a ship", () => {
   });
 });
 
-describe("receive an attack", () => {
+describe("receiveAttack()", () => {
   const gameboard = new Gameboard();
-  const ship = { class: "test", hit: jest.fn() };
+  const ship = { class: "submarine", hit: jest.fn() };
   const positions = [
     [0, 1],
     [0, 2],
@@ -37,14 +37,14 @@ describe("receive an attack", () => {
   ];
   gameboard.placeShip(ship, positions);
 
-  test("attack didn't hit", () => {
+  test("given position is equal to miss if a ship wasn't hit by the attack", () => {
     const position = [1, 0];
     gameboard.receiveAttack(position);
 
     expect(gameboard.board[position[0]][position[1]]).toEqual("miss");
   });
 
-  test("attack hit a ship", () => {
+  test("given position is equal to !ship class if a ship was hit by the attack", () => {
     const position = [0, 2];
     gameboard.receiveAttack(position);
 
@@ -52,7 +52,7 @@ describe("receive an attack", () => {
   });
 });
 
-describe("is all ships sunk", () => {
+describe("isAllShipsSunk()", () => {
   const gameboard = new Gameboard();
   const ships = {
     destroyer: { class: "destroyer", isSunk: jest.fn(() => true) },
@@ -72,13 +72,13 @@ describe("is all ships sunk", () => {
   };
   gameboard.placeShip(ships.destroyer, positions.destroyer);
 
-  test("is all ships have been sunk", () => {
+  test("returns true if all ships have been sunk", () => {
     gameboard.placeShip(ships.submarine, positions.submarine);
 
     expect(gameboard.isAllShipsSunk()).toBe(true);
   });
 
-  test("isn't every ship has sunk", () => {
+  test("returns false if not all ships have been sunk", () => {
     ships.submarine.isSunk = jest.fn(() => false);
     gameboard.placeShip(ships.submarine, positions.submarine);
 
