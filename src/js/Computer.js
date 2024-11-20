@@ -1,9 +1,11 @@
 import { getPossiblePositions, generateRandomPosition } from "./game";
 
 export default class Computer {
+  #boardSize;
   #positions;
   constructor() {
-    this.#positions = getPossiblePositions();
+    this.#boardSize = 10;
+    this.#positions = getPossiblePositions(this.#boardSize);
   }
 
   get target() {
@@ -11,7 +13,7 @@ export default class Computer {
   }
 
   #targetRandomSlot() {
-    const [y, x] = generateRandomPosition();
+    const [y, x] = generateRandomPosition(this.#positions);
     this.#deletePosition(y, x);
 
     return [y, x];
