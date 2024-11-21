@@ -21,8 +21,7 @@ export default class Gameboard {
   }
 
   receiveAttack(position) {
-    const y = position[0];
-    const x = position[1];
+    const [y, x] = position;
 
     if (this.#board[y][x] === "empty") {
       this.#board[y][x] = "miss";
