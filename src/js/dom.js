@@ -1,6 +1,6 @@
+import computer from "./Computer.js";
 import {
   gameController,
-  computerPlayer,
   playerBoards,
   setPlayers,
   initGameboard,
@@ -49,7 +49,7 @@ function startGame() {
 
 function restart() {
   gameController.reset();
-  computerPlayer.reset();
+  computer.reset();
 
   toggleHideClass(".popup"); // add
   toggleHideClass("#computerBoard"); // add
@@ -102,7 +102,7 @@ function playerAction(position) {
 }
 
 function computerAction() {
-  gameController.playTurn(computerPlayer.target);
+  gameController.playTurn(computer.target);
 
   removeChildElements(document.querySelector("#playerBoard"));
   renderGameboard(gameController.activePlayer.gameboard, "player");

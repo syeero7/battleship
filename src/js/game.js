@@ -1,6 +1,5 @@
 import GameController from "./GameController.js";
 import Gameboard from "./Gameboard.js";
-import Computer from "./Computer.js";
 import Player from "./Player.js";
 import Ship from "./Ship.js";
 
@@ -12,7 +11,6 @@ export const shipInfo = [
   { class: "Patrol Boat", size: 2 },
 ];
 export const gameController = new GameController();
-export const computerPlayer = new Computer();
 export const playerBoards = { player: initGameboard(), computer: initGameboard() };
 
 placeShipsRandom(playerBoards.player, createShips(shipInfo));
@@ -77,7 +75,7 @@ function getRandomStartingPosition(availablePositions, shipSize, boardSize) {
   return [y, x];
 }
 
-function removeAdjacentSlots(availablePositions, position) {
+export function removeAdjacentSlots(availablePositions, position) {
   const adjacentSlots = getAdjacentSlots(availablePositions, position);
 
   for (const [y, x] of adjacentSlots) availablePositions.delete(`${y}, ${x}`);
