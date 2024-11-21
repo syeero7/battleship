@@ -1,3 +1,9 @@
+import GameController from "./GameController.js";
+import Gameboard from "./Gameboard.js";
+import Computer from "./Computer.js";
+import Player from "./Player.js";
+import Ship from "./Ship.js";
+
 export const shipInfo = [
   { class: "Carrier", size: 5 },
   { class: "Battleship", size: 4 },
@@ -5,6 +11,34 @@ export const shipInfo = [
   { class: "Submarine", size: 3 },
   { class: "Patrol Boat", size: 2 },
 ];
+export const gameController = new GameController();
+export const computerPlayer = new Computer();
+export const playerBoards = { player: initGameboard(), computer: initGameboard() };
+
+placeShipsRandom(playerBoards.player, createShips(shipInfo));
+placeShipsRandom(playerBoards.computer, createShips(shipInfo));
+
+function initPlayer(name, gameboard) {
+  return new Player(name, gameboard);
+}
+
+export function initGameboard() {
+  return new Gameboard();
+}
+
+export function createShips(shipInfo) {
+  return shipInfo.map((ship) => new Ship(ship.size, ship.class));
+}
+
+export function setPlayers() {
+  const player = initPlayer("player", playerBoards.player);
+  const computer = initPlayer("computer", playerBoards.computer);
+
+  gameController.setPlayer(player);
+  gameController.setPlayer(computer);
+  playerBoards.player = null;
+  playerBoards.computer = null;
+}
 
 export function placeShipsRandom(gameboard, ships) {
   const boardSize = 10;
