@@ -103,6 +103,8 @@ function playerAction(position) {
 
 function computerAction() {
   gameController.playTurn(computer.target);
+  computer.isLastAttackHit = gameController.activePlayer.gameboard.isShipHit;
+  computer.playersCurrentShipCount = gameController.activePlayer.gameboard.remainingShips;
 
   removeChildElements(document.querySelector("#playerBoard"));
   renderGameboard(gameController.activePlayer.gameboard, "player");
