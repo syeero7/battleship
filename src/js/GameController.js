@@ -17,6 +17,13 @@ export default class GameController {
     this.#setActivePlayer(player);
   }
 
+  reset() {
+    this.#players = [];
+    this.#activePlayer = null;
+    this.#isGameOver = false;
+    this.#winner = null;
+  }
+
   #setActivePlayer(player) {
     if (this.#players.length > 1) return;
     this.#activePlayer = player;
