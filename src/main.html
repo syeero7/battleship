@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battleship</title>
+  </head>
+  <body>
+    <h1>BATTLESHIP</h1>
+    <main class="ui">
+      <div class="board player" id="playerBoard"></div>
+      <div class="board computer hide" id="computerBoard"></div>
+
+      <div id="buttons" class="buttons">
+        <button data-shuffle type="button" title="place ships randomly">shuffle</button>
+        <button data-start type="button" title="start the game">start</button>
+        <div class="popup hide">
+          <p class="result">Game over <span class="winner"></span> won</p>
+          <button data-restart type="button" title="play again">restart</button>
+        </div>
+      </div>
+    </main>
+    <p class="attribution">
+      Vectors and icons by <a href="https://www.svgrepo.com" target="_blank">SVG Repo</a>
+    </p>
+  </body>
+</html>
