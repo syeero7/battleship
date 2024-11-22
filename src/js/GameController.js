@@ -39,8 +39,8 @@ export default class GameController {
 
     opponent.gameboard.receiveAttack(position);
 
-    this.#setWinner(opponent.name);
-    this.#setIsGameOver(this.#activePlayer.gameboard.isAllShipsSunk());
+    this.#setWinner(this.#activePlayer.name);
+    this.#setIsGameOver(opponent.gameboard.isAllShipsSunk());
     this.#switchPlayerTurn();
   }
 
