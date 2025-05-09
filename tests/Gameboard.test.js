@@ -1,59 +1,59 @@
 import Gameboard from "../src/js/Gameboard";
 
 describe("placeShip()", () => {
-  const gameboard = new Gameboard();
+  const gameBoard = new Gameboard();
   const ship = { class: "battleship" };
 
-  test("given position matches the class of ship if the ship has been placed", () => {
+  it("should match the given position if the ship has been placed", () => {
     const positions = [
       [0, 1],
       [0, 2],
       [0, 3],
     ];
 
-    gameboard.placeShip(ship, positions);
+    gameBoard.placeShip(ship, positions);
 
-    for (const [y, x] of positions) expect(gameboard.board[y][x]).toEqual(ship.class);
+    for (const [y, x] of positions) expect(gameBoard.board[y][x]).toEqual(ship.class);
   });
 
-  test("returns undefined if the given position is not empty", () => {
+  it("should return undefined if the given position is not empty", () => {
     const positions = [
       [0, 0],
       [0, 1],
       [0, 2],
     ];
 
-    expect(gameboard.placeShip(ship, positions)).toBeUndefined();
+    expect(gameBoard.placeShip(ship, positions)).toBeUndefined();
   });
 });
 
 describe("receiveAttack()", () => {
-  const gameboard = new Gameboard();
+  const gameBoard = new Gameboard();
   const ship = { class: "submarine", hit: jest.fn() };
   const positions = [
     [0, 1],
     [0, 2],
     [0, 3],
   ];
-  gameboard.placeShip(ship, positions);
+  gameBoard.placeShip(ship, positions);
 
-  test("given position is equal to miss if a ship wasn't hit by the attack", () => {
+  it("should equal to miss if a ship wasn't hit by the attack", () => {
     const position = [1, 0];
-    gameboard.receiveAttack(position);
+    gameBoard.receiveAttack(position);
 
-    expect(gameboard.board[position[0]][position[1]]).toEqual("miss");
+    expect(gameBoard.board[position[0]][position[1]]).toEqual("miss");
   });
 
-  test("given position is equal to !ship class if a ship was hit by the attack", () => {
+  it("should equal to !ship class if a ship was hit by the attack", () => {
     const position = [0, 2];
-    gameboard.receiveAttack(position);
+    gameBoard.receiveAttack(position);
 
-    expect(gameboard.board[position[0]][position[1]]).toEqual(`!${ship.class}`);
+    expect(gameBoard.board[position[0]][position[1]]).toEqual(`!${ship.class}`);
   });
 });
 
 describe("isAllShipsSunk()", () => {
-  const gameboard = new Gameboard();
+  const gameBoard = new Gameboard();
   const ships = {
     destroyer: { class: "destroyer", isSunk: jest.fn(() => true) },
     submarine: { class: "submarine", isSunk: jest.fn(() => true) },
@@ -70,18 +70,18 @@ describe("isAllShipsSunk()", () => {
       [3, 3],
     ],
   };
-  gameboard.placeShip(ships.destroyer, positions.destroyer);
+  gameBoard.placeShip(ships.destroyer, positions.destroyer);
 
-  test("returns true if all ships have been sunk", () => {
-    gameboard.placeShip(ships.submarine, positions.submarine);
+  it("should return true if all ships sunk", () => {
+    gameBoard.placeShip(ships.submarine, positions.submarine);
 
-    expect(gameboard.isAllShipsSunk()).toBe(true);
+    expect(gameBoard.isAllShipsSunk()).toBe(true);
   });
 
-  test("returns false if not all ships have been sunk", () => {
+  it("should return false if not all ships sunk", () => {
     ships.submarine.isSunk = jest.fn(() => false);
-    gameboard.placeShip(ships.submarine, positions.submarine);
+    gameBoard.placeShip(ships.submarine, positions.submarine);
 
-    expect(gameboard.isAllShipsSunk()).toBe(false);
+    expect(gameBoard.isAllShipsSunk()).toBe(false);
   });
 });

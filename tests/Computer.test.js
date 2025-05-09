@@ -1,6 +1,6 @@
 import computer from "../src/js/Computer.js";
 
-test("return adjacent slot if a ship is hit", () => {
+it("should return adjacent slot if a ship is hit", () => {
   const directions = [
     [1, 0],
     [-1, 0],
