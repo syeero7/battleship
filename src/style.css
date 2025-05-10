@@ -5,7 +5,8 @@
 }
 
 :root {
-  --ff-sans-serif: Arial, sans-serif;
+  --ff-sans-serif: Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans", Arial,
+    sans-serif;
 
   --black: #000;
   --grey: #333;
