@@ -8,26 +8,19 @@
   --ff-sans-serif: Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans", Arial,
     sans-serif;
 
-  --black: #000;
-  --grey: #333;
-  --whitesmoke: #f5f5f5;
-  --green: #22c55e;
-  --red: #dc2626;
-  --blue: #0369a1;
-
-  --border: 1px solid var(--black);
-
-  --board-gap: 1px;
-  --board-size: calc(max(18rem, 35vw) + var(--board-gap) * 10);
-  --button-size: max(2rem, 5vw);
-
-  --background-img: linear-gradient(160deg, transparent, var(--green));
-  --popup-bg: linear-gradient(125deg, var(--blue), var(--green));
-
   --start: url("./images/play.svg");
   --shuffle: url("./images/shuffle.svg");
   --crosshair: url("./images/crosshair.svg");
   --replay: url("./images/replay.svg");
+
+  --text: hsl(131, 52%, 96%);
+  --background: hsl(135, 8%, 9%);
+  --primary: hsl(130, 74%, 55%);
+  --secondary: hsl(197, 97%, 50%);
+  --accent: hsl(356, 80%, 48%);
+
+  --border: 1px solid var(--text);
+  --board-size: calc(max(18rem, 35vw) + 10px);
 }
 
 .popup.hide,
@@ -39,53 +32,61 @@
 body {
   font-family: var(--ff-sans-serif);
   min-height: 100vh;
-  background-image: var(--background-img);
-  background-color: var(--grey);
+  background-color: var(--background);
   display: flex;
   flex-direction: column;
   align-items: center;
+  color: var(--text);
 }
 
 h1 {
   font-family: var(--ff-sans-serif);
   letter-spacing: 0.2rem;
   text-align: center;
-  color: var(--black);
-  -webkit-text-stroke: 1px var(--green);
+  color: var(--background);
+  font-size: 2.75em;
+  margin-block: 1em;
+  -webkit-text-stroke: 1px var(--primary);
 }
 
 .ui {
-  margin: 2vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  gap: 2.5em;
+  max-width: 750px;
 }
 
 .buttons {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  padding: 1rem;
+  gap: 2rem;
+  padding-left: 1em;
 }
 
 button {
+  --button-size: 4em;
+
   height: var(--button-size);
   width: var(--button-size);
   border: none;
   cursor: pointer;
   color: transparent;
   border-radius: 50%;
-  background-color: transparent;
+  background-color: var(--text);
   background-size: cover;
+  outline: 2px solid var(--text);
+  transition-property: background-color, outline-color;
+  transition-duration: 0.25s;
+  transition-timing-function: ease-in-out;
 }
 
 button:focus-visible,
 button:active {
-  background-color: var(--green);
-  outline: 3px solid var(--green);
-  transform: scale(1.1);
+  background-color: var(--primary);
+  outline-color: var(--primary);
+  filter: drop-shadow(0 0 0.5em var(--primary));
 }
 
 [data-start] {
@@ -105,20 +106,31 @@ button:active {
   width: var(--board-size);
   aspect-ratio: 1/1;
   display: grid;
-  gap: var(--board-gap);
-  padding: 2px;
+  border-left: var(--border);
+  border-top: var(--border);
+  border-right: 1px solid transparent;
+  border-bottom: 1px solid transparent;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(10, 1fr);
-  background-color: var(--black);
+  background-color: var(--background);
+  cursor: not-allowed;
+}
+
+.board.player {
+  box-shadow: 0 0 0 2px var(--secondary);
+  filter: drop-shadow(0 0 0.6em var(--secondary));
+}
+
+.board.computer {
+  box-shadow: 0 0 0 2px var(--accent);
+  filter: drop-shadow(0 0 0.6em var(--accent));
 }
 
 .board div {
-  background-color: var(--green);
-}
-
-.computer div:not(.miss, .hit):hover {
-  background-color: var(--red);
-  opacity: 0.75;
+  border-bottom: var(--border);
+  border-right: var(--border);
+  border-top: 1px solid transparent;
+  border-left: 1px solid transparent;
 }
 
 .board div.miss,
@@ -127,15 +139,15 @@ button:active {
 }
 
 .board div.miss {
-  background-color: var(--blue);
+  background-color: hsla(from var(--text) h s l / 0.2);
 }
 
 .board div.hit {
-  background-color: var(--red);
+  background-color: hsla(from var(--accent) h s l / 0.75);
 }
 
 .computer div:not(.miss) {
-  cursor: var(--crosshair), crosshair;
+  cursor: var(--crosshair) 24 24, crosshair;
 }
 
 .player .carrier,
@@ -143,7 +155,7 @@ button:active {
 .player .submarine,
 .player .destroyer,
 .player .patrol-boat {
-  background-color: var(--whitesmoke);
+  background-color: var(--text);
 }
 
 .popup {
@@ -155,23 +167,27 @@ button:active {
   width: 100vw;
   position: fixed;
   inset: 0;
-  background-image: var(--popup-bg);
-  background-size: cover;
-  gap: 1rem;
+  background-color: var(--background);
+  gap: 1.5em;
 }
 
 .result {
-  width: 9ch;
-  color: var(--black);
-  font-size: calc(1.5em);
+  width: 200px;
+  color: var(--text);
+  font-size: 2em;
   text-align: center;
 }
 
 .attribution {
   min-width: 100%;
   text-align: right;
-  margin: auto 1rem 0.2rem 0;
-  font-size: 0.7em;
+  padding-top: 2em;
+  margin: auto 1em 0.5em 0;
+  font-size: 0.75em;
+}
+
+:any-link {
+  color: var(--secondary);
 }
 
 @media screen and (max-width: 39.5em) {
@@ -181,14 +197,20 @@ button:active {
 
   .buttons {
     flex-direction: row;
+    padding-top: 1em;
+    padding-left: 0;
   }
 }
 
 @media (hover: hover) and (pointer: fine) {
   button:hover {
-    background-color: var(--green);
-    outline: 3px solid var(--green);
-    transform: scale(1.1);
-    transition: transform 0.3s;
+    background-color: var(--primary);
+    outline-color: var(--primary);
+    filter: drop-shadow(0 0 0.5em var(--primary));
+  }
+
+  .computer div:not(.miss, .hit):hover {
+    background-color: var(--accent);
+    filter: brightness(200%);
   }
 }
